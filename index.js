@@ -12,6 +12,7 @@ const gravity = 0.7;
 class Sprite {
     // single argument for position and velocity for cleaner (can't get position before velocity vice versa)
     constructor({position, velocity, colour, offset}) {
+        this.health = 100;
         this.position = position; 
         this.velocity = velocity;
         this.colour = colour;
@@ -37,13 +38,15 @@ class Sprite {
         context.fillRect(this.position.x, this.position.y, this.width, this.height);
 
         // attack box
-        context.fillStyle = 'green'
-        context.fillRect(
-            this.attackBox.position.x,
-            this.attackBox.position.y,
-            this.attackBox.width,
-            this.attackBox.height
-        )    
+        if (this.isAttacking) {
+            context.fillStyle = 'green'
+            context.fillRect(
+                this.attackBox.position.x,
+                this.attackBox.position.y,
+                this.attackBox.width,
+                this.attackBox.height
+            )       
+        }
     }
 
     update() {
@@ -155,11 +158,15 @@ function animate() {
     if (rectangularCollision(player, enemy) && player.isAttacking) {
             console.log("player attack!!");
             player.isAttacking = false;
+            enemy.health -= 20;
+            document.querySelector('#enemyHealth').style.width = enemy.health + '%'
     }
 
     if (rectangularCollision(enemy, player) && enemy.isAttacking) {
         console.log("enemy attack!!");
         enemy.isAttacking = false;
+        player.health -= 20;
+        document.querySelector('#playerHealth').style.width = player.health + '%'
     }
 
 }
