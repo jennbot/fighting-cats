@@ -9,71 +9,15 @@ context.fillRect(0, 0, 1024, 576);
 
 const gravity = 0.7;
 
-class Sprite {
-    // single argument for position and velocity for cleaner (can't get position before velocity vice versa)
-    constructor({position, velocity, colour, offset}) {
-        this.health = 100;
-        this.position = position; 
-        this.velocity = velocity;
-        this.colour = colour;
-        this.lastKey;
-        this.isAttacking = false;
-        this.width = 50;
-        this.height = 150;
-        this.attackBox = {
-            position: {
-                x: this.position.x,
-                y: this.position.y
-            },
-            offset, // offset: offset
-            width: 100, 
-            height: 50
-        }
-    }
-    
-    // draw sprite
-    draw() {
-        // player/enemy body
-        context.fillStyle = this.colour;
-        context.fillRect(this.position.x, this.position.y, this.width, this.height);
+const background = new Sprite({
+  position: {
+    x: 0,
+    y: 0
+  },
+  imgSrc: './img/background.png'
+})
 
-        // attack box
-        if (this.isAttacking) {
-            context.fillStyle = 'green'
-            context.fillRect(
-                this.attackBox.position.x,
-                this.attackBox.position.y,
-                this.attackBox.width,
-                this.attackBox.height
-            )       
-        }
-    }
-
-    update() {
-        this.draw();
-        this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
-        this.attackBox.position.y = this.position.y;
-
-        this.position.x += this.velocity.x;
-        this.position.y += this.velocity.y;
-
-        if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-            this.velocity.y = 0;
-        } else {
-            this.velocity.y += gravity;
-        }
-
-    }
-
-    attack() {
-        this.isAttacking = true;
-        setTimeout(() => {
-            this.isAttacking = false;
-        }, 100);
-    }
-}
-
-const player = new Sprite({
+const player = new Fighter({
     colour: 'red',
     position: {
         x: 0,
@@ -89,7 +33,7 @@ const player = new Sprite({
     }
 })
 
-const enemy = new Sprite({
+const enemy = new Fighter({
     colour: 'blue',
     position: {
         x: 400,
@@ -116,41 +60,6 @@ const keys = {
     ArrowUp: {pressed: false}
 }
 
-function rectangularCollision(player, enemy) {
-    return (
-        player.attackBox.position.x + player.attackBox.width >= enemy.position.x &&
-        player.attackBox.position.x <= enemy.position.x + enemy.width &&
-        player.attackBox.position.y + player.height >= enemy.position.y &&
-        player.attackBox.position.y <= enemy.position.y + enemy.height
-    );
-}
-
-function determineWinner(player, enemy, timerId) {
-    clearTimeoutsdf(timerId)
-    document.querySelector('#displayText').style.display = 'flex';
-    if (player.health === enemy.health) {
-        document.querySelector('#displayText').innerHTML = 'Tie';
-    } else if (player.health > enemy.health) {
-        document.querySelector('#displayText').innerHTML = 'Player 1 Wins';
-    } else {
-        document.querySelector('#displayText').innerHTML = 'Player 2 Wins';
-    }
-}
-
-let timer = 60;
-let timerId;
-function decreaseTimer(){
-    if (timer > 0) {
-        timerId = setTimeout(decreaseTimer, 1000);
-        timer--;
-        document.querySelector('#timer').innerHTML= timer;
-    }
-
-    if (timer == 0) {
-        determineWinner(player, enemy);
-    }
-}
-
 decreaseTimer();
 
 function animate() {
@@ -159,6 +68,9 @@ function animate() {
     // stops sprite bleeding
     context.fillStyle = 'black';
     context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // update background
+    background.update();
 
     // update player movement 
     player.update();
@@ -184,14 +96,12 @@ function animate() {
 
     // detect attack box collisions
     if (rectangularCollision(player, enemy) && player.isAttacking) {
-            console.log("player attack!!");
             player.isAttacking = false;
             enemy.health -= 20;
             document.querySelector('#enemyHealth').style.width = enemy.health + '%'
     }
 
     if (rectangularCollision(enemy, player) && enemy.isAttacking) {
-        console.log("enemy attack!!");
         enemy.isAttacking = false;
         player.health -= 20;
         document.querySelector('#playerHealth').style.width = player.health + '%'
