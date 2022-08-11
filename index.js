@@ -17,6 +17,16 @@ const background = new Sprite({
   imgSrc: './img/background.png'
 })
 
+const shop = new Sprite({
+    position: {
+        x: 600,
+        y: 128
+    },
+    imgSrc: './img/shop.png',
+    scale: 2.75,
+    framesMax: 6
+})
+
 const player = new Fighter({
     colour: 'red',
     position: {
@@ -71,6 +81,7 @@ function animate() {
 
     // update background
     background.update();
+    shop.update();
 
     // update player movement 
     player.update();
