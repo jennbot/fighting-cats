@@ -203,6 +203,11 @@ function animate() {
     player.switchSprite("fall");
   }
 
+  // check if player is on the ground
+  if (player.velocity.y === 0) {
+    player.jumping = 0;
+  }
+
   // enemy movement
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5;
@@ -219,6 +224,11 @@ function animate() {
     enemy.switchSprite("jump");
   } else if (enemy.velocity.y > 0) {
     enemy.switchSprite("fall");
+  }
+
+  // check if enemy is on the ground
+  if (enemy.velocity.y === 0) {
+    enemy.jumping = 0;
   }
 
   // player attacks, enemy hit
@@ -280,9 +290,14 @@ window.addEventListener("keydown", (event) => {
         player.lastKey = "a";
         break;
       case "w":
-        // jump
+        // double jump
         keys.w.pressed = true;
-        player.velocity.y = -15;
+
+        if (player.jumping < 2) {
+           player.velocity.y = -15;
+           player.jumping++;
+        } 
+
         break;
       case " ":
         // attack
@@ -306,7 +321,12 @@ window.addEventListener("keydown", (event) => {
       case "ArrowUp":
         // jump
         keys.ArrowUp.pressed = true;
-        enemy.velocity.y = -15;
+        
+        if (enemy.jumping < 2) {
+           enemy.velocity.y = -15;
+           enemy.jumping++;
+        } 
+
         break;
       case "ArrowDown":
         // attack

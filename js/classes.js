@@ -94,6 +94,7 @@ class Fighter extends Sprite {
     this.framesHold = 10;
     this.sprites = sprites;
     this.dead = false;
+    this.jumping = 0;
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
