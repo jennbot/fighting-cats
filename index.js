@@ -30,7 +30,7 @@ const shop = new Sprite({
 const player = new Fighter({
   colour: "red",
   position: {
-    x: 0,
+    x: 100,
     y: 0,
   },
   velocity: {
@@ -41,49 +41,49 @@ const player = new Fighter({
     x: 0,
     y: 0,
   },
-  imgSrc: "./img/samuraiMack/Idle.png",
-  scale: 2.75,
-  framesMax: 8,
+  imgSrc: "./img/Meow Knight/Meow_Knight-Idle.png",
+  scale: 0.5,
+  framesMax: 6,
   offset: {
-    x: 215,
-    y: 188,
+    x: 170,
+    y: 170,
   },
   sprites: {
     idle: {
-      imgSrc: "./img/samuraiMack/Idle.png",
-      framesMax: 8,
+      imgSrc: "./img/Meow Knight/Meow_Knight-Idle.png",
+      framesMax: 6,
     },
     run: {
-      imgSrc: "./img/samuraiMack/Run.png",
+      imgSrc: "./img/Meow Knight/Meow_Knight-Sheet-Run.png",
       framesMax: 8,
     },
     jump: {
-      imgSrc: "./img/samuraiMack/Jump.png",
-      framesMax: 2,
+      imgSrc: "./img/Meow Knight/Meow_Knight-Shee-Jump.png",
+      framesMax: 5,
     },
     fall: {
-      imgSrc: "./img/samuraiMack/Fall.png",
-      framesMax: 2,
+      imgSrc: "./img/Meow Knight/Meow_Knight-Sheet-Fall.png",
+      framesMax: 7,
     },
     attack1: {
-      imgSrc: "./img/samuraiMack/Attack1.png",
-      framesMax: 6,
+      imgSrc: "./img/Meow Knight/Meow_Knight-Sheet-Attack1.png",
+      framesMax: 10,
     },
     takeHit: {
-      imgSrc: "./img/samuraiMack/Take Hit.png",
-      framesMax: 4,
+      imgSrc: "./img/Meow Knight/Meow_Knight-Sheet-Damage.png",
+      framesMax: 3,
     },
     death: {
-      imgSrc: "./img/samuraiMack/Death.png",
-      framesMax: 6,
+      imgSrc: "./img/Meow Knight/Meow_Knight-Sheet-Death.png",
+      framesMax: 5,
     },
   },
   attackBox: {
     offset: {
-      x: 120,
-      y: 50,
+      x: 50,
+      y: 80,
     },
-    width: 180,
+    width: 100,
     height: 50,
   },
 });
@@ -91,7 +91,7 @@ const player = new Fighter({
 const enemy = new Fighter({
   colour: "blue",
   position: {
-    x: 400,
+    x: 850,
     y: 100,
   },
   velocity: {
@@ -294,9 +294,9 @@ window.addEventListener("keydown", (event) => {
         keys.w.pressed = true;
 
         if (player.jumping < 2) {
-           player.velocity.y = -15;
-           player.jumping++;
-        } 
+          player.velocity.y = -15;
+          player.jumping++;
+        }
 
         break;
       case " ":
@@ -319,13 +319,13 @@ window.addEventListener("keydown", (event) => {
         enemy.lastKey = "ArrowLeft";
         break;
       case "ArrowUp":
-        // jump
+        // double jump
         keys.ArrowUp.pressed = true;
-        
+
         if (enemy.jumping < 2) {
-           enemy.velocity.y = -15;
-           enemy.jumping++;
-        } 
+          enemy.velocity.y = -15;
+          enemy.jumping++;
+        }
 
         break;
       case "ArrowDown":
