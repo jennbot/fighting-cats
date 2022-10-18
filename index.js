@@ -208,6 +208,15 @@ function animate() {
     player.jumping = 0;
   }
 
+  // check if player is within boundary
+  if (player.position.x < 0) {
+    player.position.x = 0;
+  }
+
+  if (player.position.x > 965) {
+    player.position.x = 965;
+  }
+
   // enemy movement
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5;
@@ -217,6 +226,15 @@ function animate() {
     enemy.switchSprite("run");
   } else {
     enemy.switchSprite("idle");
+  }
+
+    // check if enemy is within boundary
+  if (enemy.position.x < -15) {
+    enemy.position.x = -15;
+  }
+
+  if (enemy.position.x > 945) {
+    enemy.position.x = 945;
   }
 
   // enemy jumping
