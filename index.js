@@ -69,6 +69,10 @@ const player = new Fighter({
       imgSrc: "./img/Meow Knight/Meow_Knight-Sheet-Attack1.png",
       framesMax: 10,
     },
+    attack2: {
+      imgSrc: "./img/Meow Knight/Meow_Knight-Sheet-Attack2.png",
+      framesMax: 4,
+    },
     takeHit: {
       imgSrc: "./img/Meow Knight/Meow_Knight-Sheet-Damage.png",
       framesMax: 3,
@@ -127,6 +131,10 @@ const enemy = new Fighter({
       framesMax: 2,
     },
     attack1: {
+      imgSrc: "./img/kenji/Attack1.png",
+      framesMax: 4,
+    },
+      attack2: {
       imgSrc: "./img/kenji/Attack1.png",
       framesMax: 4,
     },
@@ -253,9 +261,10 @@ function animate() {
   if (
     rectangularCollision(player, enemy) &&
     player.isAttacking &&
-    player.framesCurrent === 4
+    ((player.attackType === 'attack1' && player.framesCurrent === 4) || 
+    (player.attackType === 'attack2' && player.framesCurrent === 2))
   ) {
-    enemy.takeHit();
+    enemy.takeHit(player.attackType);
     player.isAttacking = false;
     gsap.to("#enemyHealth", {
       width: enemy.health + "%",
@@ -302,11 +311,13 @@ window.addEventListener("keydown", (event) => {
         keys.d.pressed = true;
         player.lastKey = "d";
         break;
+
       case "a":
         // move left
         keys.a.pressed = true;
         player.lastKey = "a";
         break;
+
       case "w":
         // double jump
         keys.w.pressed = true;
@@ -315,11 +326,18 @@ window.addEventListener("keydown", (event) => {
           player.velocity.y = -15;
           player.jumping++;
         }
-
         break;
-      case " ":
-        // attack
-        player.attack();
+
+      case "g":
+        // attack1
+        player.attack("attack1");
+        player.attackType = "attack1";
+        break;
+
+      case "h":
+        // attack2
+        player.attack("attack2");
+        player.attackType = "attack2";
         break;
     }
   }
@@ -331,11 +349,13 @@ window.addEventListener("keydown", (event) => {
         keys.ArrowRight.pressed = true;
         enemy.lastKey = "ArrowRight";
         break;
+
       case "ArrowLeft":
         // move left
         keys.ArrowLeft.pressed = true;
         enemy.lastKey = "ArrowLeft";
         break;
+
       case "ArrowUp":
         // double jump
         keys.ArrowUp.pressed = true;
@@ -344,11 +364,11 @@ window.addEventListener("keydown", (event) => {
           enemy.velocity.y = -15;
           enemy.jumping++;
         }
-
         break;
+
       case "ArrowDown":
         // attack
-        enemy.attack();
+        enemy.attack("attack1");
         break;
     }
   }

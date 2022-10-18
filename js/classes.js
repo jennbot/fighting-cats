@@ -1,3 +1,4 @@
+// SPRITE CLASS
 class Sprite {
   // single argument for position and velocity for cleaner (can't get position before velocity vice versa)
   constructor({
@@ -53,6 +54,7 @@ class Sprite {
   }
 }
 
+// FIGHTER CLASS 
 class Fighter extends Sprite {
   // single argument for position and velocity for cleaner (can't get position before velocity vice versa)
   constructor({
@@ -78,6 +80,7 @@ class Fighter extends Sprite {
     this.colour = colour;
     this.lastKey;
     this.isAttacking = false;
+    this.attackType = "";
     this.width = 50;
     this.height = 150;
     this.attackBox = {
@@ -113,7 +116,7 @@ class Fighter extends Sprite {
     //context.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     // draw attack box
-    //context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
+    context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
 
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
@@ -127,15 +130,19 @@ class Fighter extends Sprite {
     }
   }
 
-  attack() {
-    this.switchSprite("attack1");
+  attack(attackType) {
+    this.switchSprite(attackType);
+    this.attackType == attackType
     this.isAttacking = true;
   }
 
-  takeHit() {
-    this.health -= 20;
-
-    console.log(this.health);
+  takeHit(attackType) {
+    console.log(attackType);
+    if (attackType === "attack1") {
+      this.health -= 8;
+    } else if (attackType === "attack2") {
+      this.health-= 2;
+    }
 
     if (this.health <= 0) {
       this.switchSprite("death");
@@ -162,8 +169,10 @@ class Fighter extends Sprite {
 
     // override all other animations with the attack animation
     if (
-      this.image === this.sprites.attack1.image &&
-      this.framesCurrent < this.sprites.attack1.framesMax - 1
+      (this.image === this.sprites.attack1.image &&
+      this.framesCurrent < this.sprites.attack1.framesMax - 1) || 
+      (this.image === this.sprites.attack2.image &&
+      this.framesCurrent < this.sprites.attack2.framesMax - 1)
     )
       return;
 
@@ -204,6 +213,14 @@ class Fighter extends Sprite {
         if (this.image !== this.sprites.attack1.image) {
           this.image = this.sprites.attack1.image;
           this.framesMax = this.sprites.attack1.framesMax;
+          this.framesCurrent = 0;
+        }
+        break;
+      
+      case "attack2":
+        if (this.image !== this.sprites.attack2.image) {
+          this.image = this.sprites.attack2.image;
+          this.framesMax = this.sprites.attack2.framesMax;
           this.framesCurrent = 0;
         }
         break;
