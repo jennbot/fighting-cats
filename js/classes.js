@@ -132,16 +132,15 @@ class Fighter extends Sprite {
 
   attack(attackType) {
     this.switchSprite(attackType);
-    this.attackType == attackType
+    this.attackType = attackType
     this.isAttacking = true;
   }
 
   takeHit(attackType) {
-    console.log(attackType);
     if (attackType === "attack1") {
-      this.health -= 8;
+      this.health -= 0;
     } else if (attackType === "attack2") {
-      this.health-= 2;
+      this.health-= 100;
     }
 
     if (this.health <= 0) {
@@ -173,6 +172,13 @@ class Fighter extends Sprite {
       this.framesCurrent < this.sprites.attack1.framesMax - 1) || 
       (this.image === this.sprites.attack2.image &&
       this.framesCurrent < this.sprites.attack2.framesMax - 1)
+    )
+      return;
+
+    // override all other animations with run animation
+    if (
+      this.image === this.sprites.run.image &&
+      this.framesCurrent < this.sprites.run.framesMax - 1
     )
       return;
 
@@ -237,8 +243,8 @@ class Fighter extends Sprite {
         if (this.image !== this.sprites.death.image) {
           this.image = this.sprites.death.image;
           this.framesMax = this.sprites.death.framesMax;
-          this.framesCurrent = 0;
         }
+        break;
     }
   }
 }

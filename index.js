@@ -149,7 +149,7 @@ const enemy = new Fighter({
   },
   attackBox: {
     offset: {
-      x: -170,
+      x: -150,
       y: 50,
     },
     width: 170,
@@ -277,7 +277,7 @@ function animate() {
     enemy.isAttacking &&
     enemy.framesCurrent === 2
   ) {
-    player.takeHit();
+    player.takeHit(enemy.attackType);
     enemy.isAttacking = false;
     gsap.to("#playerHealth", {
       width: player.health + "%",
@@ -293,9 +293,26 @@ function animate() {
     enemy.isAttacking = false;
   }
 
+// enemy AI movements 
+let attackBoxXLeft = enemy.position.x + enemy.attackBox.offset.x;
+let attackBoxXRight= enemy.position.x + enemy.attackBox.offset.x + enemy.attackBox.width;
+
+if (player.position.x > attackBoxXLeft && player.position.x < attackBoxXRight) {
+  enemy.attack('attack1');
+  enemy.isAttacking('false');
+} else if (player.position.x < attackBoxXRight) {
+  enemy.velocity.x = -3;
+  enemy.switchSprite("run");
+} else {
+  enemy.velocity.x = 3;
+  enemy.switchSprite("run");
+}
+
   // end game based on health
   if (enemy.health <= 0 || player.health <= 0) {
     determineWinner(player, enemy, timerId);
+    enemy.velocity.x = 0;
+    enemy.velocity.y = 0;
   }
 }
 
@@ -303,6 +320,9 @@ animate();
 
 // keyboard movements
 window.addEventListener("keydown", (event) => {
+  // stop key hold repeating  
+  if (event.repeat) return;
+
   if (!player.dead) {
     switch (event.key) {
       // Player
@@ -366,8 +386,8 @@ window.addEventListener("keydown", (event) => {
         }
         break;
 
-      case "ArrowDown":
-        // attack
+      case ".":
+        // attack1
         enemy.attack("attack1");
         break;
     }
