@@ -1,0 +1,6 @@
+Improvements to be made: 
+- Set enemy attack to intervals instead of spamming attack once its in range of player
+
+Known Bugs:
+- enemy makes makes a hit on each frame of attack 
+- health bar bugs out sometimes (check edges cases)
