@@ -1,6 +1,5 @@
-# Cat Fighters
+# Cat Fighter
 
-Cats who fight
+Vanilla JS street fighter-esque game. 
 
-
-<a href="https://cat-fighters.netlify.app/">Preview Here</a>
+<a href="https://cat-fighters.netlify.app/">Preview</a>
