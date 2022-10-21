@@ -54,7 +54,7 @@ class Sprite {
   }
 }
 
-// FIGHTER CLASS 
+// FIGHTER CLASS
 class Fighter extends Sprite {
   // single argument for position and velocity for cleaner (can't get position before velocity vice versa)
   constructor({
@@ -113,10 +113,15 @@ class Fighter extends Sprite {
     this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
 
     // draw sprite box
-    //context.fillRect(this.position.x, this.position.y, this.width, this.height);
+    context.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     // draw attack box
-    context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
+    context.fillRect(
+      this.attackBox.position.x,
+      this.attackBox.position.y,
+      this.attackBox.width,
+      this.attackBox.height
+    );
 
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
@@ -130,21 +135,29 @@ class Fighter extends Sprite {
     }
   }
 
+  death() {
+    this.image = this.sprites.death.image;
+    this.framesMax = this.sprites.death.framesMax;
+  }
+
   attack(attackType) {
     this.switchSprite(attackType);
-    this.attackType = attackType
+    this.attackType = attackType;
     this.isAttacking = true;
   }
 
-  takeHit(attackType) {
-    if (attackType === "attack1") {
-      this.health -= 0;
+  // refactor this
+  takeHit(attackType, sprite) {
+    if (attackType === "attack1" && sprite === "player") {
+      this.health -= 1;
+    } else if (attackType === "attack1" && sprite === "enemy") {
+      this.health -= 25;
     } else if (attackType === "attack2") {
-      this.health-= 100;
+      this.health -= 10;
     }
 
     if (this.health <= 0) {
-      this.switchSprite("death");
+      this.death();
     } else {
       this.switchSprite("takeHit");
     }
@@ -169,16 +182,9 @@ class Fighter extends Sprite {
     // override all other animations with the attack animation
     if (
       (this.image === this.sprites.attack1.image &&
-      this.framesCurrent < this.sprites.attack1.framesMax - 1) || 
+        this.framesCurrent < this.sprites.attack1.framesMax - 1) ||
       (this.image === this.sprites.attack2.image &&
-      this.framesCurrent < this.sprites.attack2.framesMax - 1)
-    )
-      return;
-
-    // override all other animations with run animation
-    if (
-      this.image === this.sprites.run.image &&
-      this.framesCurrent < this.sprites.run.framesMax - 1
+        this.framesCurrent < this.sprites.attack2.framesMax - 1)
     )
       return;
 
@@ -222,7 +228,7 @@ class Fighter extends Sprite {
           this.framesCurrent = 0;
         }
         break;
-      
+
       case "attack2":
         if (this.image !== this.sprites.attack2.image) {
           this.image = this.sprites.attack2.image;
@@ -239,12 +245,12 @@ class Fighter extends Sprite {
         }
         break;
 
-      case "death":
-        if (this.image !== this.sprites.death.image) {
-          this.image = this.sprites.death.image;
-          this.framesMax = this.sprites.death.framesMax;
-        }
-        break;
+      // case "death":
+      //   if (this.image !== this.sprites.death.image) {
+      //     this.image = this.sprites.death.image;
+      //     this.framesMax = this.sprites.death.framesMax;
+      //   }
+      //   break;
     }
   }
 }
