@@ -2,13 +2,12 @@
 
 Vanilla JS street fighter-esque game. 
 
-Work in progress!
+<a href="https://cat-fighters.netlify.app/">Work in progress!</a>
 
-Controls
-W: Jump (double tap for double jump)
-A: Left
-D: Right
-G: Attack 1
-H: Attack 2
 
-<a href="https://cat-fighters.netlify.app/">Preview</a>
+## Controls<br>
+W: Jump (double tap for double jump) <br>
+A: Left<br>
+D: Right<br>
+G: Attack 1<br>
+H: Attack 2<br>
