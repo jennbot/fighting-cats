@@ -11,21 +11,22 @@ const gravity = 0.7;
 
 const background = new Sprite({
   position: {
-    x: 0,
-    y: 0,
+    x: -300,
+    y: -300,
   },
-  imgSrc: "./img/background.png",
+  imgSrc: "./img/Illusion-forest-flat.png",
+  scale: 0.7
 });
 
-const shop = new Sprite({
-  position: {
-    x: 600,
-    y: 128,
-  },
-  imgSrc: "./img/shop.png",
-  scale: 2.75,
-  framesMax: 6,
-});
+// const shop = new Sprite({
+//   position: {
+//     x: 600,
+//     y: 128,
+//   },
+//   imgSrc: "./img/shop.png",
+//   scale: 2.75,
+//   framesMax: 6,
+// });
 
 const player = new Fighter({
   colour: "red",
@@ -46,7 +47,7 @@ const player = new Fighter({
   framesMax: 6,
   offset: {
     x: 170,
-    y: 170,
+    y: 175,
   },
   sprites: {
     idle: {
@@ -111,7 +112,7 @@ const enemy = new Fighter({
   framesMax: 6,
   offset: {
     x: 315,
-    y: 17,
+    y: 27,
   },
   sprites: {
     idle: {
@@ -176,7 +177,7 @@ function animate() {
 
   // update background
   background.update();
-  shop.update();
+  //shop.update();
 
   // fade out background slightly
   context.fillStyle = "rgba(255,255,255,0.10)";
@@ -371,10 +372,6 @@ function enemyAIMove() {
   ) {
     enemy.attack("attack1");
   } else if (player.position.x + player.width < attackBoxXRight) {
-    //setTimeout(function() {
-    //   enemy.velocity.x = -2; 
-    //   enemy.switchSprite("run");
-    // }, 1000);
     enemy.velocity.x = -2;
     enemy.switchSprite("run");
   } else if (player.position.x >= attackBoxXLeft) {
