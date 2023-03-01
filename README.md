@@ -17,4 +17,4 @@ G: Attack 1<br>
 H: Attack 2<br>
 
 ## References: <br>
-<a href="https://www.youtube.com/watch?v=vyqbNFMDRGQ&t=13266s">JavaScript Fighting Game Tutorial with HTML Canvas !</a>
+<a href="https://www.youtube.com/watch?v=vyqbNFMDRGQ&t=13266s">JavaScript Fighting Game Tutorial with HTML Canvas</a>
